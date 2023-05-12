@@ -1,0 +1,11 @@
+h1 {
+    border: 2px #eee solid;
+    color: brown;
+    text-align: center;
+    padding: 10px;
+    background-image: url("/static/img/jumbotron.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
+}
+/* rgb(1, 12, 30) */

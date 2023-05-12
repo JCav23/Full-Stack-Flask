@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{% block title %} Add New Film Entry {% endblock %}</h1>
+
+<form method="post">
+    <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text" name="title"
+               placeholder="Film title" class="form-control"
+               value="{{ request.form['title'] }}"></input>
+    </div>
+
+    <div class="form-group">
+        <label for="yearReleased">Release Year</label>
+        <input type="text" name="yearReleased" placeholder="Year"
+                  class="form-control">{{ request.form['yearReleased'] }}</input>
+    </div>
+
+    <div class="form-group">
+        <label for="rating">Rating</label>
+        <input type="text" name="rating" placeholder="Rating"
+                  class="form-control">{{ request.form['rating'] }}</input>
+    </div>
+
+    <div class="form-group">
+        <label for="duration">Length (min)</label>
+        <input type="text" name="duration" placeholder="Duration"
+                  class="form-control">{{ request.form['duration'] }}</input>
+    </div>
+
+    <div class="form-group">
+        <label for="genre">Genre</label>
+        <input type="text" name="genre" placeholder="Genre"
+                  class="form-control">{{ request.form['genre'] }}</input>
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+
+</form>
+{% endblock %}

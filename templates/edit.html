@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{% block title %} {% for field in film %} {{ field['title'] }} {% endfor %} {% endblock %}</h1>
+
+<form method="post">
+    <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text" name="title"
+               placeholder="Title" class="form-control"
+               value="{{ request.form['title'] or post['title'] }}"></input>
+    </div>
+
+    <div class="form-group">
+        <label for="yearReleased">Release Year</label>
+        <input type="text" name="yearReleased" placeholder="Year"
+                  class="form-control">{{ request.form['yearReleased'] or post['yearReleased'] }}</input>
+    </div>
+
+    <div class="form-group">
+        <label for="rating">Rating</label>
+        <input type="text" name="rating" placeholder="Rating"
+                  class="form-control">{{ request.form['rating'] or post['rating'] }}</input>
+    </div>
+
+    <div class="form-group">
+        <label for="duration">Length (min)</label>
+        <input type="text" name="duration" placeholder="Duration"
+                  class="form-control">{{ request.form['duration'] or post['duration'] }}</input>
+    </div>
+
+    <div class="form-group">
+        <label for="genre">Genre</label>
+        <input type="text" name="genre" placeholder="Genre"
+                  class="form-control">{{ request.form['genre'] or post['genre'] }}</input>
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+
+</form>
+
+<hr>
+
+<!-- 
+<form action="{{ url_for('delete', id=post['filmID']) }}" method="POST">
+    <input type="submit" value="Delete Post"
+            class="btn btn-danger btn-sm"
+            onclick="return confirm('Are you sure you want to delete this post?')">
+</form> -->
+
+{% endblock %}
