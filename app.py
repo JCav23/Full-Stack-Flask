@@ -78,8 +78,6 @@ def edit(fID):
 
     return render_template('edit.html', post=post, heading=heading)
 
-
-
 @app.route('/<int:fID>/delete', methods=['POST'])
 def delete(fID):
      if request.method == 'POST':
@@ -97,7 +95,6 @@ def search():
         search = request.form['search']
         conn = db_connection()
         results = conn.execute('SELECT * FROM tblFilms WHERE title LIKE % OR yearReleased LIKE % OR rating LIKE % OR duration LIKE % OR genre LIKE %', (search)).fetchall()
-        conn.commit()
         conn.close()
         return redirect(url_for('search'))
 
