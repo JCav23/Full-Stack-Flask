@@ -36,6 +36,12 @@
     </div>
 
     <div class="form-group">
+        <label for="poster">Poster</label>
+        <input type="file" name="poster" placeholder="poster"
+                  class="form-control">{{ request.form['poster'] }}</input>
+    </div>
+
+    <div class="form-group">
         <button type="submit" class="btn btn-primary">Submit</button>
     </div>
 

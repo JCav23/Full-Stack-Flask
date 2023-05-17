@@ -1,16 +1,26 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-        <h2>{% block title %} {% for field in film %} {{ field['title'] }} {% endfor %} {% endblock %}</h2>
+<h2>{% block title %} {% for field in film %} {{ field['title'] }} {% endfor %} {% endblock %}</h2>
         {% for field in film %}
-        <a href="{{ url_for('edit', id=field['filmID']) }}">
-                <span class="material-symbols-outlined float-right">edit</span>
-            </a>
-        <span class="badge badge-primary">{{ field['yearReleased'] }}</span>
-        <p>{{ field['rating'] }}</p>
-        <p>{{ field['duration'] }}</p>
-        <p>{{ field['genre'] }}</p>
+        <div>     
+                <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="/static/img/{{field['poster']}}" alt="Movie Poster"> 
+                        <div class="card-body">
+                                <span class="badge badge-primary">{{ field['yearReleased'] }}</span>
+                        </div>
+                </div>
+        </div>  
+        <div class="col">
+                <a href="{{ url_for('edit', fID=field['filmID']) }}">
+                        <span class="material-symbols-outlined float-right">edit</span>
+                </a>
+                <p>{{ field['rating'] }}</p>
+                <p>{{ field['duration'] }}</p>
+                <p>{{ field['genre'] }}</p>
+        </div>
+
+        
         
         {% endfor %}
 {% endblock %}

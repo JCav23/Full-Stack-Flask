@@ -39,52 +39,68 @@ def create():
         rating = request.form['rating']
         duration = request.form['duration']
         genre = request.form['genre']
+        poster = request.form['poster']
 
         if not title:
             flash('Title is required!')
         else:
             conn = db_connection()
-            conn.execute('INSERT INTO tblFilms (title, yearReleased, rating, duration, genre) VALUES (?, ?, ?, ?, ?)',
-                         (title, yearReleased, rating, duration, genre))
+            conn.execute('INSERT INTO tblFilms (title, yearReleased, rating, duration, genre, poster) VALUES (?, ?, ?, ?, ?)',
+                         (title, yearReleased, rating, duration, genre, poster))
             conn.commit()
             conn.close()
             return redirect(url_for('index'))
         
     return render_template('create.html')
 
-@app.route('/<int:id>/edit', methods=('GET','POST'))
-def edit(id):
-    post = get_film(id)
+@app.route('/<int:fID>/edit', methods=('GET','POST'))
+def edit(fID):
+    post = get_film(fID)
+    heading = get_film(fID)[0][1]
 
     if request.method == 'POST':
-        title = request.form['title']
-        yearReleased = request.form['yearReleased']
-        rating = request.form['rating']
-        duration = request.form['duration']
-        genre = request.form['genre']
+        title = request.form.get('title')
+        yearReleased = request.form.get('yearReleased')
+        rating = request.form.get('rating')
+        duration = request.form.get('duration')
+        genre = request.form.get('genre')
+        poster = request.form.get('poster')
 
         if not title:
             flash('Title is required!')
         else:
             conn = db_connection()
-            conn.execute('UPDATE tblFilms SET title = ?, yearReleased = ?, rating = ?, duration = ?, genre = ?'
-                         'WHERE filmID = ?',
-                         (title, yearReleased, rating, duration, genre, id))
+            conn.execute('UPDATE tblFilms SET title = ?, yearReleased = ?, rating = ?, duration = ?, genre = ?, poster = ? WHERE filmID = ?',
+                         (title, yearReleased, rating, duration, genre, poster, fID))
             conn.commit()
             conn.close()
             return redirect(url_for('index'))
 
-    return render_template('edit.html', post=post)
+    return render_template('edit.html', post=post, heading=heading)
 
-@app.route('/<int:id>/delete', methods=('POST',))
-def delete(id):
-    post = get_film(id)
-    conn = db_connection()
-    conn.execute('DELETE FROM tblFilms WHERE filmID = ?', (id,))
-    conn.commit()
-    conn.close()
-    flash('"{}" was successfully deleted!'.format(post['title']))
-    return redirect(url_for('index'))
+
+
+@app.route('/<int:fID>/delete', methods=['POST'])
+def delete(fID):
+     if request.method == 'POST':
+        post = get_film(fID)[0][1]
+        conn = db_connection()
+        conn.execute('DELETE FROM tblFilms WHERE filmID = ?', (fID,))
+        conn.commit()
+        conn.close()
+        flash(f'Entry: {post} was successfully deleted!')
+        return redirect(url_for('index'))
+     
+@app.route('/search', methods=['GET', 'POST'])
+def search():
+    if request.method == 'POST':
+        search = request.form['search']
+        conn = db_connection()
+        results = conn.execute('SELECT * FROM tblFilms WHERE title LIKE % OR yearReleased LIKE % OR rating LIKE % OR duration LIKE % OR genre LIKE %', (search)).fetchall()
+        conn.commit()
+        conn.close()
+        return redirect(url_for('search'))
+
 
 if __name__ == "__main__":
     app.run(debug=True,host='0.0.0.0',port=5000)
