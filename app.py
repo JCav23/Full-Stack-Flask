@@ -91,12 +91,13 @@ def delete(fID):
      
 @app.route('/search', methods=['GET', 'POST'])
 def search():
-    if request.method == 'POST':
         search = request.form['search']
         conn = db_connection()
-        results = conn.execute('SELECT * FROM tblFilms WHERE title LIKE % OR yearReleased LIKE % OR rating LIKE % OR duration LIKE % OR genre LIKE %', (search)).fetchall()
+        results = conn.execute("SELECT * FROM tblFilms WHERE title LIKE ? OR yearReleased LIKE ? OR rating LIKE ? OR duration LIKE ? OR genre LIKE ?", (search, search, search, search, search)).fetchall()
         conn.close()
-        return redirect(url_for('search'))
+        return render_template('search.html', results=results)
+    
+    
 
 
 if __name__ == "__main__":
